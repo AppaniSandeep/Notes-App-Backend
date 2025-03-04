@@ -1,0 +1,44 @@
+
+
+
+
+GET http://localhost:3000/notes
+
+###
+DELETE http://localhost:3000/notes/1
+
+###
+
+POST http://localhost:3000/notes
+Content-Type: "application/json"
+
+{
+    "title": "Project",
+    "content": "The project name is Book Hub it's developed with React.js and using functional and class components accordingly.",
+    "category":"Study",
+    "created_at":"{{$localDatetime rfc1123}}",
+    "updated_at":"{{$localDatetime rfc1123}}",
+    "pinned":"true",
+    "archived":"true",
+}
+
+###
+
+POST http://localhost:3000/signup
+Content-Type: application/json
+
+{
+    "name":"Anji",
+    "email":"anji@gmail.com",
+    "password":"anji@123",
+    "created_at":"{{$datetime iso8601}}"
+}
+
+
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "name":"raju",
+    "password":"raj"
+}
