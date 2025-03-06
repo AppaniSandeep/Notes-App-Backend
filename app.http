@@ -1,44 +1,36 @@
-
-
-
-
 GET http://localhost:3000/notes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5qaSIsImlhdCI6MTc0MTI0MDg2Nn0.uOop6Wer7ypRmiygA6Nq4Yddz774ONpG0fk4VG0TbhA
 
 ###
-DELETE http://localhost:3000/notes/1
+DELETE http://localhost:3000/notes/4
 
 ###
 
 POST http://localhost:3000/notes
-Content-Type: "application/json"
+Content-Type: application/json
 
-{
-    "title": "Project",
-    "content": "The project name is Book Hub it's developed with React.js and using functional and class components accordingly.",
-    "category":"Study",
-    "created_at":"{{$localDatetime rfc1123}}",
-    "updated_at":"{{$localDatetime rfc1123}}",
-    "pinned":"true",
-    "archived":"true",
-}
+{ "title": "Project", "content": "The project name is Book Hub. Its developed with React.js.", "category": "Study", "created_at":"{{$localDatetime rfc1123}}","updated_at":"{{$localDatetime rfc1123}}", "pinned": true, "archived": true }
+
+###
+
+PUT http://localhost:3000/notes/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5qaSIsImlhdCI6MTc0MTI0MDg2Nn0.uOop6Wer7ypRmiygA6Nq4Yddz774ONpG0fk4VG0TbhA
+
+{ "title": "Project", "content": "The project name is NxtTrendz. Its developed with React.js.", "category": "Study", "updated_at":"{{$localDatetime rfc1123}}", "pinned": false, "archived": false }
+
 
 ###
 
 POST http://localhost:3000/signup
 Content-Type: application/json
 
-{
-    "name":"Anji",
-    "email":"anji@gmail.com",
-    "password":"anji@123",
-    "created_at":"{{$datetime iso8601}}"
-}
+{ "name":"Anji","email":"anji", "password":"anji@123","created_at":"{{$datetime iso8601}}"}
+
+###
 
 
 POST http://localhost:3000/login
 Content-Type: application/json
 
-{
-    "name":"raju",
-    "password":"raj"
-}
+{"name":"Anji","password":"anji@123"}
