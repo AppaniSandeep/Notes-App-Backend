@@ -1,5 +1,5 @@
 GET http://localhost:3000/notes
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5qaSIsImlhdCI6MTc0MTI0MDg2Nn0.uOop6Wer7ypRmiygA6Nq4Yddz774ONpG0fk4VG0TbhA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5qaSIsImlhdCI6MTc0MTUwMjI5NX0.TiuqYtiyCdNQUVxhPAFr7NhMlB7brzOemDRNR_eBSO4
 
 ###
 DELETE http://localhost:3000/notes/4
@@ -15,7 +15,7 @@ Content-Type: application/json
 
 PUT http://localhost:3000/notes/43
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5qaSIsImlhdCI6MTc0MTI0MDg2Nn0.uOop6Wer7ypRmiygA6Nq4Yddz774ONpG0fk4VG0TbhA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5qaSIsImlhdCI6MTc0MTUwMjI5NX0.TiuqYtiyCdNQUVxhPAFr7NhMlB7brzOemDRNR_eBSO4
 
 { "title": "Project", "content": "The project name is NxtTrendz. Its developed with React.js.", "category": "Study", "updated_at":"{{$localDatetime rfc1123}}", "pinned": false, "archived": false }
 
