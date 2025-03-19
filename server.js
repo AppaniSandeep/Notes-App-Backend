@@ -37,28 +37,24 @@ intializeDbAndServer()
 app.post('/signup', async (request,response) => {
     const {name,email,password,created_at} = request.body
 
-    const hashedPassword = await bcrypt.hash(request.body.password, 10);
-    const selectUserQuery = `SELECT * FROM users WHERE email = '${email}';`
-    const dbUser = await db.get(selectUserQuery);
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const selectUserQuery = `SELECT * FROM users WHERE email = ?;`
+    const dbUser = await db.get(selectUserQuery,[email]);
     if (dbUser === undefined){
-        const postQuery = `INSERT INTO users (name,email,password,created_at) VALUES ('${name}','${email}','${hashedPassword}','${created_at}');`
-        await db.run(postQuery)
-        response.send("User Added")
+        const postQuery = `INSERT INTO users (name,email,password,created_at) VALUES (?,?,?,?);`
+        await db.run(postQuery,[name,email,hashedPassword,created_at]);
+        response.status(200).json({message:"User Added"})        
     }else{
-        response.status(400)
-        response.send("User already exist")
+        response.status(400).json({message:"User already exist"})
     }
-
-
 })
 
 app.post("/login", async (request,response) => {
     const {name,password} = request.body
-    const selectUserQuery = `SELECT * FROM users WHERE name = '${name}';`
-    const dbUser = await db.get(selectUserQuery)
+    const selectUserQuery = `SELECT * FROM users WHERE name = ?;`
+    const dbUser = await db.get(selectUserQuery,[name])
     if (dbUser === undefined){
-        response.status(400)
-        response.send("INVALID USER")
+        response.status(400).json({error:"INVALID USER"})
     }else{
         const isPasswordMatched = await bcrypt.compare(password,dbUser.password)
         if (isPasswordMatched === true){
@@ -66,11 +62,9 @@ app.post("/login", async (request,response) => {
                 name: name,
             };
             const jwtToken = jwt.sign(payload, "SECRET_TOKEN")
-            response.send({jwtToken});
-            response.send("Login Success")
+            response.status(200).json({message:"Login Success",jwtToken})
         }else{
-            response.status(400)
-            response.send("Invalid Password")
+            response.status(400).json({message:"Invalid Password"})
         }
     }
 
@@ -100,9 +94,8 @@ app.get("/notes", async (request,response) => {
 
 })
 
-app.delete("/notes/:id", async (request,response) => {
-    const {id} = request.params
-    const deleteNotes = `DELETE FROM notes WHERE id = ${id};`
+app.delete("/notes", async (request,response) => {
+    const deleteNotes = `DELETE FROM notes;`
     await db.run(deleteNotes)
     response.send("Notes Deleted")
 })

@@ -1,8 +1,8 @@
 GET http://localhost:3000/notes
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5qaSIsImlhdCI6MTc0MTUwMjI5NX0.TiuqYtiyCdNQUVxhPAFr7NhMlB7brzOemDRNR_eBSO4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5qaSIsImlhdCI6MTc0MTg0NjcyMX0.DyJoFkGGwI5IIIMwpqxXCtIP_PnMQFF7mYJ1pzVJMV0
 
 ###
-DELETE http://localhost:3000/notes/4
+DELETE http://localhost:3000/notes
 
 ###
 
@@ -13,7 +13,7 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:3000/notes/43
+PUT http://localhost:3000/notes/48
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5qaSIsImlhdCI6MTc0MTUwMjI5NX0.TiuqYtiyCdNQUVxhPAFr7NhMlB7brzOemDRNR_eBSO4
 
@@ -25,7 +25,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5qaSIsI
 POST http://localhost:3000/signup
 Content-Type: application/json
 
-{ "name":"Anji","email":"anji", "password":"anji@123","created_at":"{{$datetime iso8601}}"}
+{ "name":"Ranjith","email":"ranji", "password":"ranji@123","created_at":"{{$datetime iso8601}}"}
 
 ###
 
