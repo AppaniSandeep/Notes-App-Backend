@@ -23,8 +23,8 @@ const intializeDbAndServer = async () => {
             driver:sqlite3.Database
 
         })
-        app.listen(3000, () => {
-            console.log("server runnning at 3000")
+        app.listen(3001, () => {
+            console.log("server runnning at 3001")
         })
 
     }catch(e){
@@ -63,6 +63,7 @@ app.post("/login", async (request,response) => {
             };
             const jwtToken = jwt.sign(payload, "SECRET_TOKEN")
             response.status(200).json({message:"Login Success",jwtToken})
+
         }else{
             response.status(400).json({message:"Invalid Password"})
         }
@@ -71,7 +72,24 @@ app.post("/login", async (request,response) => {
 })
 
 
-app.get("/notes", async (request,response) => {
+// const authenticate = (req,res,next) => {
+//     const token = req.cookies.token;
+//     if (!token){
+//         return res.status(401).json({message:"Access denied. No token provided"})
+//     }
+
+//     try{
+//         const decoded = jwt.verify(token,"SECRET_TOKEN");
+//         req.user = decoded;
+//         next()
+
+//     }catch(e){
+//         res.status(400).json({message:"Invalid or Expired token"})
+
+//     }
+// }
+
+app.get("/notes",async (request,response) => {
     let jwtToken;
     const authHeader = request.headers["authorization"]
     if (authHeader !== undefined) {
