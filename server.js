@@ -9,6 +9,11 @@ const {open} = require("sqlite");
 const sqlite3 = require("sqlite3");
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
+
+require('dotenv').config();
+const jwtSecret = process.env.JWT_SECRET || "SECRET"
 
 
 const dbPath = path.join(__dirname, "notes.db");
@@ -43,7 +48,7 @@ app.post('/signup', async (request,response) => {
     if (dbUser === undefined){
         const postQuery = `INSERT INTO users (name,email,password,created_at) VALUES (?,?,?,?);`
         await db.run(postQuery,[name,email,hashedPassword,created_at]);
-        response.status(200).json({message:"User Added"})        
+        response.status(201).json({message: "User created successfully"})        
     }else{
         response.status(400).json({message:"User already exist"})
     }
@@ -61,8 +66,8 @@ app.post("/login", async (request,response) => {
             const payload = {
                 name: name,
             };
-            const jwtToken = jwt.sign(payload, "SECRET_TOKEN")
-            response.status(200).json({message:"Login Success",jwtToken})
+            const jwtToken = jwt.sign(payload, jwtSecret)
+            response.status(200).json({message: "Login Success",jwtToken});
 
         }else{
             response.status(400).json({message:"Invalid Password"})
@@ -72,24 +77,30 @@ app.post("/login", async (request,response) => {
 })
 
 
-// const authenticate = (req,res,next) => {
-//     const token = req.cookies.token;
-//     if (!token){
-//         return res.status(401).json({message:"Access denied. No token provided"})
-//     }
+const authenticate = (req,res,next) => {
+    let token;
+    const authHeader = req.headers["authorization"];
+    if (authHeader !== undefined) {
+        token = authHeader.split(" ")[1];
+    }
+    if (!token){
+        return res.status(401).json({message:"Access denied. No token provided"})
+    }
 
-//     try{
-//         const decoded = jwt.verify(token,"SECRET_TOKEN");
-//         req.user = decoded;
-//         next()
+    try{
+        const decoded = jwt.verify(token,process.env.JWT_SECRET);
+        req.user = decoded;
+        next()
 
-//     }catch(e){
-//         res.status(400).json({message:"Invalid or Expired token"})
+    }catch(e){
+        res.status(400).json({message:"Invalid or Expired token"})
 
-//     }
-// }
+    }
 
-app.get("/notes",async (request,response) => {
+    
+}
+
+app.get("/notes",authenticate,async (request,response) => {
     let jwtToken;
     const authHeader = request.headers["authorization"]
     if (authHeader !== undefined) {
@@ -99,7 +110,7 @@ app.get("/notes",async (request,response) => {
         response.status(401)
         response.send("JwtToken Invalid")
     } else {
-        jwt.verify(jwtToken, "SECRET_TOKEN", async (error, payload) => {
+        jwt.verify(jwtToken, jwtSecret, async (error, payload) => {
             if (error) {
                 response.send("Invalid JWT Token")
             } else {
@@ -112,20 +123,22 @@ app.get("/notes",async (request,response) => {
 
 })
 
-app.delete("/notes", async (request,response) => {
+app.delete("/notes",authenticate, async (request,response) => {
     const deleteNotes = `DELETE FROM notes;`
     await db.run(deleteNotes)
     response.send("Notes Deleted")
 })
 
-app.post("/notes", async (request,response) => {
+app.post("/notes",authenticate, async (request,response) => {
     const {title,content,category,created_at,updated_at,pinned,archived} = request.body;
-    const postQuery = `INSERT INTO notes (title,content,category,created_at,updated_at,pinned,archived) VALUES ('${title}','${content}','${category}','${created_at}','${updated_at}','${pinned}','${archived}');`
-    await db.run(postQuery)
+    const postQuery = `
+    INSERT INTO notes (title, content, category, created_at, updated_at, pinned, archived)
+    VALUES (?, ?, ?, ?, ?, ?, ?);`;
+  await db.run(postQuery, [title, content, category, created_at, updated_at, pinned, archived]);
     response.send("Notes added successfully")
 })
 
-app.put("/notes/:id", async (request, response) => {
+app.put("/notes/:id",authenticate, async (request, response) => {
     const { id } = request.params;
     const { title, content, category, updated_at, pinned, archived } = request.body;
     console.log(request.body)
@@ -138,7 +151,7 @@ app.put("/notes/:id", async (request, response) => {
         response.status(401)
         response.send("Inavalid Jwt Token")
     } else {
-        jwt.verify(jwtToken, "SECRET_TOKEN", async (error, payload) => {
+        jwt.verify(jwtToken, jwtSecret, async (error, payload) => {
             if (error) {
                 response.send("Inavalid JWT Token")
             } else {
@@ -152,4 +165,6 @@ app.put("/notes/:id", async (request, response) => {
 
 
 })
+
+
 module.exports = app

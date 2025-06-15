@@ -1,34 +1,39 @@
-GET http://localhost:3000/notes
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5qaSIsImlhdCI6MTc0MzA1ODcwNH0.HaTvfNDQ8spgf0sNIpwl7lQotwaUOiyIhAgQ3lsWSAM
+GET http://localhost:3001/notes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5qaSIsImlhdCI6MTc0OTk3NTYzMn0.BCA4AYiVTiwbC-snJPkeNRr1LTi7IZ4NtpLoyAPZS2E
+
 ###
-DELETE http://localhost:3000/notes
+DELETE http://localhost:3001/notes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5qaSIsImlhdCI6MTc0OTk3NTYzMn0.BCA4AYiVTiwbC-snJPkeNRr1LTi7IZ4NtpLoyAPZS2E
 
 ###
 
-POST http://localhost:3000/notes
+POST http://localhost:3001/notes
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5qaSIsImlhdCI6MTc0OTk3NTYzMn0.BCA4AYiVTiwbC-snJPkeNRr1LTi7IZ4NtpLoyAPZS2E
 
 { "title": "Project", "content": "The project name is Book Hub. Its developed with React.js.", "category": "Study", "created_at":"{{$localDatetime rfc1123}}","updated_at":"{{$localDatetime rfc1123}}", "pinned": true, "archived": true }
 
 ###
 
-PUT http://localhost:3000/notes/48
+PUT http://localhost:3001/notes/48
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5qaSIsImlhdCI6MTc0OTk3NTYzMn0.BCA4AYiVTiwbC-snJPkeNRr1LTi7IZ4NtpLoyAPZS2E
+
 
 { "title": "Project", "content": "The project name is NxtTrendz. Its developed with React.js.", "category": "Study", "updated_at":"{{$localDatetime rfc1123}}", "pinned": false, "archived": false }
 
 
 ###
 
-POST http://localhost:3000/signup
+POST http://localhost:3001/signup
 Content-Type: application/json
 
-{ "name":"Ranjith","email":"ranji", "password":"ranji@123","created_at":"{{$datetime iso8601}}"}
+{ "name":"Rajukumar","email":"rajukumar@example.com", "password":"veen@123","created_at":"{{$datetime iso8601}}"}
 
 ###
 
 
-POST http://localhost:3000/login
+POST http://localhost:3001/login
 Content-Type: application/json
 
 {"name":"Anji","password":"anji@123"}
